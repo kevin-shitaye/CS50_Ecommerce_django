@@ -1,0 +1,61 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+{% if item.sold is not True %}
+  <img src="{{item.url_of_image}}">
+{% if user.is_authenticated %}
+     <form method="POST" action="{% url 'listingPage' item.id %}">
+         {% csrf_token %}
+         {% if user in item.watchers.all %}
+            <input name="watchlist" type="submit" value="Remove from watchlist">
+             {% else %}
+              <input name="watchlist" type="submit" value="Add to watchlist">
+         {% endif %}
+      </form>
+    <form method="POST" action="{% url 'listingPage' item.id %}">
+        {% csrf_token %}
+      <input type="number" placeholder="Your bid price" name="ask" min="{{item.current_price}}" required>
+      <input name="bid" type="submit" value="Place a bid">
+    </form>
+
+    <form action="{% url 'listingPage' item.id %}" method="POST">
+        {% csrf_token %}
+        <textarea placeholder="Comment here" name="comments" required></textarea>
+        <input type="submit" name="comment">
+    </form>
+
+        {% if user == item.provider%}
+            <form action="{% url 'listingPage' item.id %}" method="POST">
+                {% csrf_token %}
+                <input name="sold" type="submit" value="sold">
+            </form>
+        {% endif %}
+    {% else %}
+        <strong>Login to make a bid or to add to watchlist</strong>
+{% endif %}
+
+    <h1>Top bids</h1>
+    <ul>
+        {% for bid in bids%}
+            <li>{{bid.asker}} :- {{bid.ask_price}}</li>
+        {% endfor %}
+    </ul>
+  <h2>{{item.items_name}}</h2>
+  <h2>{{item.description}}</h2>
+  <h2>{{item.current_price}}</h2>
+  <h2>BY: {{item.provider}}</h2>
+
+    <h1>Comments</h1>
+    {% for comment in comments %}
+        <p>{{comment.comment}} {{comment.user}}</p>
+    {% endfor %}
+{% else %}
+    <h1>{{item.items_name}} is sold to {{ bids.0.asker}}</h1>
+     <h1>Top bids</h1>
+    <ul>
+        {% for bid in bids %}
+        <li>{{bid.asker}} :- {{bid.ask_price}}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+{% endblock %}

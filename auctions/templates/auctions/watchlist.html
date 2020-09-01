@@ -1,0 +1,18 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<ul>
+    {% for item in items%}
+        <li><a href="{% url 'listingPage' item.id %}">{{item}}</a>
+            <form action="{% url 'listingPage' item.id %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" name="watchlist" value="Remove from watchlist">
+        </form>
+
+        </li>
+    {% endfor %}
+
+</ul>
+
+
+{% endblock %}

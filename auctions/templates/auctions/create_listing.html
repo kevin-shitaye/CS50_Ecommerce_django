@@ -1,0 +1,33 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <form action="{% url 'create' %}" method="POST">
+        {% csrf_token%}
+         <div class="form-group">
+            <input class="form-control" autofocus type="text" name="items_name" placeholder="Items name">
+        </div>
+        <div class="form-group">
+            <input class="form-control" autofocus type="text" name="price" placeholder="Price">
+        </div>
+        <div class="form-group">
+            <input class="form-control" autofocus type="url" name="image" placeholder="url for the image">
+        </div>
+        <div class="form-group">
+            <label for="category">Category: </label>
+            <select name="category" id="category" class="form-control">
+                <option value="other">Others</option>
+                <option value="clothes">Clothes</option>
+                <option value="electronics">Electronics</option>
+                <option value="shoes">Shoes</option>
+                <option value="books">Books</option>
+            </select>
+        </div>
+        <div>
+            <label for="description">Description:</label>
+            <textarea id="description" class="form-control" autofocus name="description"></textarea>
+        </div>
+         <input class="btn btn-primary mt-3" type="submit" value="Post">
+
+    </form>
+
+{% endblock %}
