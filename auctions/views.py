@@ -134,6 +134,11 @@ def watchlist(request):
 
 
 def category(request):
+    if request.method == 'POST':
+        cate = request.POST['category']
+        return render(request, "auctions/categoryPage.html", {
+            "items": AuctionListing.objects.filter(category__exact=cate)
+        })
     return render(request, "auctions/category.html", {
         "items":AuctionListing.objects.all()
     })

@@ -1,7 +1,8 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-<form action="{% url 'category' %}">
+<form action="{% url 'category' %}" method="POST">
+    {% csrf_token %}
      <div class="form-group">
             <label for="category">Category: </label>
             <select name="category" id="category" class="form-control">
