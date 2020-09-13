@@ -1,18 +1,30 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-<ul>
-    {% for item in items%}
-        <li><a href="{% url 'listingPage' item.id %}">{{item}}</a>
-            <form action="{% url 'listingPage' item.id %}" method="POST">
-            {% csrf_token %}
-            <input type="submit" name="watchlist" value="Remove from watchlist">
-        </form>
+<div class="row mx-auto">
+    {% for item in items %}
+    
+        <div class="col-sm-12 col-md-4 mb-3">
+            <div class="card">
+                <img class="card-img-top" src="{{item.url_of_image}}" alt="Image not working">
+                <div class="card-body">
+                    <h5 class="card-title">{{item.items_name}}</h5>
+                    <p class="card-text">
+                        Price: {{item.current_price}}Br <br>
+                        Description: {{item.description}}
+                    </p>
+                    <a href="{% url 'listingPage' item.id %}" class="btn btn-info btn-md">View</a>
+                    <form action="{% url 'listingPage' item.id %}" method="POST">
+                        {% csrf_token %}
+                        <input class="btn btn-danger btn-md mt-1" type="submit" name="watchlist" value="Remove from watchlist">
+                    </form>
+                </div>
 
-        </li>
-    {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 
-</ul>
 
 
 {% endblock %}

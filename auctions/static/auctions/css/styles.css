@@ -1,0 +1,26 @@
+body {
+    background: url("../images/download.jpg") no-repeat fixed;
+    background-size: cover;
+}
+
+.jumbotron{
+    background-color: rgba(10, 10, 10, 0.5);
+    color: white;
+}
+
+.card{
+    background-color: rgb(255, 193, 7);
+    
+    border-radius: 8%;
+}
+
+
+.navbar a{
+    font-size: 1.2em;
+    }
+.page-footer{
+    background-color: rgb(240, 204, 46);
+}
+.display-4{
+    font-weight: bolder;
+}

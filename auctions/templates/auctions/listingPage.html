@@ -3,59 +3,79 @@
 {% block body %}
 {% if item.sold is not True %}
   <img src="{{item.url_of_image}}">
-{% if user.is_authenticated %}
-     <form method="POST" action="{% url 'listingPage' item.id %}">
-         {% csrf_token %}
-         {% if user in item.watchers.all %}
-            <input name="watchlist" type="submit" value="Remove from watchlist">
-             {% else %}
-              <input name="watchlist" type="submit" value="Add to watchlist">
-         {% endif %}
-      </form>
-    <form method="POST" action="{% url 'listingPage' item.id %}">
+  <div class="form-group">
+    {% if user.is_authenticated %}
+    {% if user == item.provider%}
+           <form action="{% url 'listingPage' item.id %}" method="POST">
+               {% csrf_token %}
+               <input name="sold" class="btn btn-warning m-2" type="submit" value="sold">
+           </form>
+       {% endif %}
+    <form class="form-inline m-2" method="POST" action="{% url 'listingPage' item.id %}">
         {% csrf_token %}
-      <input type="number" placeholder="Your bid price" name="ask" min="{{item.current_price}}" required>
-      <input name="bid" type="submit" value="Place a bid">
-    </form>
-
-    <form action="{% url 'listingPage' item.id %}" method="POST">
-        {% csrf_token %}
-        <textarea placeholder="Comment here" name="comments" required></textarea>
-        <input type="submit" name="comment">
-    </form>
-
-        {% if user == item.provider%}
-            <form action="{% url 'listingPage' item.id %}" method="POST">
-                {% csrf_token %}
-                <input name="sold" type="submit" value="sold">
-            </form>
+        {% if user in item.watchers.all %}
+           <input name="watchlist" type="submit" value="Remove from watchlist" class="btn btn-danger">
+            {% else %}
+             <input name="watchlist" type="submit" value="Add to watchlist" class="btn btn-success">
         {% endif %}
-    {% else %}
-        <strong>Login to make a bid or to add to watchlist</strong>
-{% endif %}
+     </form>
+   <form class="form-inline m-2" method="POST" action="{% url 'listingPage' item.id %}">
+       {% csrf_token %}
+     <input type="number" class="form-control" placeholder="Place a bid" name="ask" min="{{item.current_price}}" required>
+     <input name="bid" class="btn btn-success" type="submit" value="Place a bid">
+   </form>
 
+   <form class="form-inline m-2" action="{% url 'listingPage' item.id %}" method="POST">
+       {% csrf_token %}
+       <textarea class="form-control" placeholder="Comment here" name="comments" required></textarea>
+       <input class="btn btn-primary ml-2" value=submit type="submit" name="comment">
+   </form>
+
+       
+   {% else %}
+       <strong class="text-info">Login to make a bid or to add to watchlist</strong>
+{% endif %}
+  </div>
+
+  <div class="container bg-light">
+      <h2>Details:</h2>
+      <ul>
+          <li>Name: {{item.items_name}}</li>
+          <li>Description: {{item.description}}</li>
+          <li>Price: {{item.current_price}}</li>
+          <li>BY: {{item.provider}}</li>
+      </ul>
+    
+  
     <h1>Top bids</h1>
     <ul>
         {% for bid in bids%}
             <li>{{bid.asker}} :- {{bid.ask_price}}</li>
+        {% empty %}
+            <h2>No bids made</h2>
         {% endfor %}
     </ul>
-  <h2>{{item.items_name}}</h2>
-  <h2>{{item.description}}</h2>
-  <h2>{{item.current_price}}</h2>
-  <h2>BY: {{item.provider}}</h2>
-
+ 
     <h1>Comments</h1>
-    {% for comment in comments %}
-        <p>{{comment.comment}} {{comment.user}}</p>
+    <ul>
+        {% for comment in comments %}
+        <li>{{comment.comment}} {{comment.user}}</li>
+    {% empty %}
+        <h2>No comments</h2>
     {% endfor %}
+        
+    </ul>
+    
 {% else %}
-    <h1>{{item.items_name}} is sold to {{ bids.0.asker}}</h1>
+    <h1 class="text-white">{{item.items_name}} is sold to {{ bids.0.asker}}</h1>
      <h1>Top bids</h1>
     <ul>
         {% for bid in bids %}
         <li>{{bid.asker}} :- {{bid.ask_price}}</li>
         {% endfor %}
     </ul>
+  
+   
 {% endif %}
+</div>
 {% endblock %}

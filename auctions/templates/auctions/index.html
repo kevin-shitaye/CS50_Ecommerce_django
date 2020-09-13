@@ -1,15 +1,31 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>Active Listings</h2>
 
+    <div class="jumbotron">
+        <h2>Welcome!!!</h2>
+        <p>Hello, this is an auction site based in Addis Ababa, Ethiopia. Here you can get your price, whether you are here as a buyer or a seller. You can participate in different auctions on a daily basis. Enjoy!!!</p>
+    </div>
+
+    <p class="display-4 text-success">Active Listings</p>
+    
+    <div class="row mx-auto">
     {% for item in items %}
-    <img src="{{item.url_of_image}}">
-    <ul>
-        <li><a href="{% url 'listingPage' item.id %}">{{item.items_name}}</a></li>
-        <li>{{item.description}}</li>
-        <li>{{item.current_price}}</li>
-    </ul>
+    
+        <div class="col-sm-12 col-md-4 mb-3">
+            <div class="card">
+                <img class="card-img-top" src="{{item.url_of_image}}" alt="Image not working">
+                <div class="card-body">
+                    <h5 class="card-title">{{item.items_name}}</h5>
+                    <p class="card-text">
+                        Price: {{item.current_price}}Br <br>
+                        Description: {{item.description}}
+                    </p>
+                    <a href="{% url 'listingPage' item.id %}" class="btn btn-info btn-md">View</a>
+                </div>
 
-    {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 {% endblock %}
