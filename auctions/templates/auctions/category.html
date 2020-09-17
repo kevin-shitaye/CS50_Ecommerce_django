@@ -1,21 +1,6 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-<form class="form-inline mb-3" action="{% url 'category' %}" method="POST">
-    {% csrf_token %}
-            <label for="category">Category: </label>
-            <select name="category" id="category" class="form-control">
-                <option value="other">Others</option>
-                <option value="clothes">Clothes</option>
-                <option value="electronics">Electronics</option>
-                <option value="shoes">Shoes</option>
-                <option value="books">Books</option>
-            </select>
-            <input class="btn btn-primary" type="submit">
-        
-
-</form>
-
 <div class="row mx-auto">
     {% for item in items %}
     

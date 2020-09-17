@@ -9,6 +9,11 @@ from .models import AuctionListing,User,Bid,Comment
 
 
 def index(request):
+    if request.method == "POST":
+        query = request.POST['query']
+        return render(request, "auctions/category.html", {
+            "items":AuctionListing.objects.filter(items_name__contains = query).exclude(sold__exact = True)
+        })
     return render(request, "auctions/index.html", {
         "items":AuctionListing.objects.all().exclude(sold__exact = True)
     })
@@ -133,12 +138,7 @@ def watchlist(request):
     })
 
 
-def category(request):
-    if request.method == 'POST':
-        cate = request.POST['category']
-        return render(request, "auctions/categoryPage.html", {
-            "items": AuctionListing.objects.filter(category__exact=cate).exclude(sold__exact = True)
+def category(request, category):
+        return render(request, "auctions/category.html", {
+            "items": AuctionListing.objects.filter(category__exact=category).exclude(sold__exact = True)
         })
-    return render(request, "auctions/category.html", {
-        "items":AuctionListing.objects.all().exclude(sold__exact = True)
-    })

@@ -26,13 +26,21 @@
         <nav class="navbar navbar-expand-md  sticky-top p-0 container">
            
    
-            <div class="collapse navbar-collapse px-4 py-0" id="colNav">
+            <div class="collapse navbar-collapse  py-0" id="colNav">
                 <ul class="navbar-nav navbar">
                     <li class="nav-item px-1 py-0">
                         <a class="nav-link text-light" href="{% url 'index' %}">Active Listings</a>
                     </li>
-                    <li class="nav-item px-1 py-0">
-                        <a class="nav-link text-light" href="{% url 'category' %}">Category</a>
+                    <li class="nav-item px-1 py-0 dropdown">
+
+                        <a class="nav-link dropdown-toggle text-light" href="#" id="navbardrop" data-toggle="dropdown">Category</a>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'category' 'electronics' %}">Electronics</a>
+                            <a class="dropdown-item" href="{% url 'category' 'clothes' %}">Clothes</a>
+                            <a class="dropdown-item" href="{% url 'category'  'books' %}">Books</a>
+                            <a class="dropdown-item" href="{% url 'category'  'shoes' %}">Shoes</a>
+                            <a class="dropdown-item" href="{% url 'category'  'others' %}">Others</a>
+                          </div>
                     </li>
                     {% if user.is_authenticated %}
                    
@@ -55,8 +63,9 @@
                     {% endif %}
                 </ul>
             </div>
-            <form class="form-inline" action="{% url 'index' %}" method="POST">
-                <input class="form-control" type="text" placeholder="Search">
+            <form class="form-inline" action="{% url 'index' %}" method="POST" name="search">
+                {% csrf_token %}
+                <input class="form-control" type="text" placeholder="Search" name="query">
                 <button class="btn btn-primary" type="submit">Search</button>
               </form>
               <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#colNav"  aria-expanded="false" aria-label="Toggle navigation">
